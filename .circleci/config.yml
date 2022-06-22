@@ -1,0 +1,18 @@
+# CircleCI configuration file
+version: 2.1
+
+
+orbs:
+  aws-cli: circleci/aws-cli@2.0.3
+  heroku: circleci/heroku@1.2.6
+
+
+workflows:
+  heroku_deploy:
+    jobs:
+      - heroku/deploy-via-git:
+          filters:
+            branches:
+              only: [main]
+
+
