@@ -152,7 +152,7 @@ const RootQuery = new GraphQLObjectType({
 				id: { type: GraphQLID },
 			},
 			resolve(parent, args) {
-				return _.find(hobbiesData, { id: args.id });
+				return Hobby.findById(args.id);
 			},
 		},
 		// root query for  one post
@@ -162,7 +162,7 @@ const RootQuery = new GraphQLObjectType({
 				id: { type: GraphQLID },
 			},
 			resolve(parent, args) {
-				return _.find(postsData, { id: args.id });
+				return Post.findById(args.id);
 			},
 		},
 
@@ -170,7 +170,7 @@ const RootQuery = new GraphQLObjectType({
 		users: {
 			type: new GraphQLList(UserType),
 			resolve(parent, args) {
-				return usersData;
+				return User.find({});
 			},
 		},
 
@@ -178,7 +178,7 @@ const RootQuery = new GraphQLObjectType({
 		hobbies: {
 			type: new GraphQLList(HobbyType),
 			resolve(parents, args) {
-				return hobbiesData;
+				return Hobby.find({});
 			},
 		},
 
@@ -186,7 +186,7 @@ const RootQuery = new GraphQLObjectType({
 		posts: {
 			type: new GraphQLList(PostType),
 			resolve(parents, args) {
-				return postsData;
+				return Post.find({});
 			},
 		},
 	},
@@ -347,20 +347,20 @@ const Mutation = new GraphQLObjectType({
 			},
 		},
 
-		// Delete Hobby
-		// DeleteHobby: {
-		// 	type: HobbyType,
-		// 	args: {
-		// 		id: { type: GraphQLNonNull(GraphQLString) },
-		// 	},
-		// 	resolve(parent, args) {
-		// 		let deletedHobby = Hobby.findByIdAndRemove(args.id).exec();
-		// 		if (!deletedHobby) {
-		// 			throw new Error();
-		// 		}
-		// 		return deletedHobby;
-		// 	},
-		// },
+		//Delete Hobby
+		DeleteHobby: {
+			type: HobbyType,
+			args: {
+				id: { type: GraphQLNonNull(GraphQLString) },
+			},
+			resolve(parent, args) {
+				let deletedHobby = Hobby.findByIdAndRemove(args.id).exec();
+				if (!deletedHobby) {
+					throw new Error();
+				}
+				return deletedHobby;
+			},
+		},
 	},
 });
 
